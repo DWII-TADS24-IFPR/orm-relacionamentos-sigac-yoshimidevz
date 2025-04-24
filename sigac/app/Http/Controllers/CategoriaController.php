@@ -8,17 +8,15 @@ use Illuminate\Support\Facades\Hash;
 
 class AlunoController extends Controller
 {
- public function index()
- {
-  $alunos = Aluno::with(['curso', 'turma', 'user'])
+ public function index(){
+  $alunos = Aluno::with(['curso', 'turma'])
   ->orderBy('nome')
   ->paginate(10);
 
   return response()->json($alunos);
  }
 
- public function store(Request $request)
- {
+ public function store(Request $request){
   $request->validate([
   'nome' => 'required|string|max:150',
   'cpf' => 'required|string|size:11|unique:alunos',
@@ -37,16 +35,14 @@ class AlunoController extends Controller
   return response()->json($aluno, 201);
  }
 
- public function show($id)
- {
+ public function show($id){
   $aluno = Aluno::with(['curso', 'turma', 'user'])
   ->findOrFail($id);
 
   return response()->json($aluno);
  }
 
- public function update(Request $request, $id)
- {
+ public function update(Request $request, $id){
   $aluno = Aluno::findOrFail($id);
 
   $request->validate([
@@ -63,24 +59,21 @@ class AlunoController extends Controller
   return response()->json($aluno);
  }
 
- public function destroy($id)
- {
+ public function destroy($id){
   $aluno = Aluno::findOrFail($id);
   $aluno->delete();
 
   return response()->json(null, 204);
  }
 
- public function restore($id)
- {
+ public function restore($id){
   $aluno = Aluno::withTrashed()->findOrFail($id);
   $aluno->restore();
 
   return response()->json($aluno);
  }
 
- public function search(Request $request)
- {
+ public function search(Request $request){
   $query = Aluno::query();
 
   if ($request->nome) {
