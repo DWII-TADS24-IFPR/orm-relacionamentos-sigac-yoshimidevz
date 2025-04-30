@@ -13,7 +13,7 @@ class Turma extends Model
         'ano',
     ];
 
-    function roles(){
+    function cursos(){
         return $this->hasOne(Curso::class)->withTimestamps();
     }
 }
